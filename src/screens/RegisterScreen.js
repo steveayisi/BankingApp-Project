@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,32 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  Alert,
+  ScrollView,
 } from "react-native";
 
 const RegisterScreen = ({ navigation }) => {
+  const [fullname, setFullname] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleRegister = () => {
+    if (!fullname || !mobile || !email) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
+
+    // Simulate registration success
+    Alert.alert("Success", "Registration successful!", [
+      {
+        text: "OK",
+        onPress: () => navigation.navigate("RegisterSub", { mobile }),
+      },
+    ]);
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -29,7 +50,8 @@ const RegisterScreen = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Enter your Fullname"
-            keyboardType="default"
+            value={fullname}
+            onChangeText={setFullname}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -38,6 +60,8 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.input}
             placeholder="Enter your mobile number"
             keyboardType="phone-pad"
+            value={mobile}
+            onChangeText={setMobile}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -45,11 +69,13 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.input}
             placeholder="Enter your email address"
             keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
         <TouchableOpacity
           style={styles.registerButton}
-          onPress={() => navigation.navigate("RegisterSub")}
+          onPress={handleRegister}
         >
           <Text style={styles.registerButtonText}>Next</Text>
         </TouchableOpacity>
@@ -62,24 +88,26 @@ const RegisterScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
+    padding: 20,
+    justifyContent: "center",
   },
   header: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ff7f50",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
     flexDirection: "row",
-    paddingTop: 0.7,
+    paddingTop: 25,
+    paddingBottom: 20,
   },
   backButton: {
     position: "absolute",
@@ -97,13 +125,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   content: {
-    flex: 3,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
-    width: 150,
-    height: 150,
+    width: "50%",
+    height: undefined,
+    aspectRatio: 1,
     marginBottom: 20,
   },
   inputContainer: {
@@ -112,9 +141,10 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 25,
-    paddingHorizontal: 5,
-    paddingVertical: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     marginBottom: 10,
+    width: "100%",
   },
   input: {
     flex: 1,
@@ -131,9 +161,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
   },
   loginButton: {
-    marginTop: 0.5,
+    marginTop: 10,
   },
   loginButtonText: {
     color: "#ff7f50",

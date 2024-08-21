@@ -6,18 +6,38 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  ScrollView,
+  Alert,
 } from "react-native";
 
-const RegisterSubScreen = ({ navigation }) => {
+const RegisterSubScreen = ({ route, navigation }) => {
+  const { mobile } = route.params;
   const [dob, setDob] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
   const [placeOfBirth, setPlaceOfBirth] = useState("");
   const [nextOfKin, setNextOfKin] = useState("");
   const [nextOfKinContact, setNextOfKinContact] = useState("");
   const [occupation, setOccupation] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSubmit = () => {
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
+    // Simulate successful registration and navigate to the next screen
+    Alert.alert("Success", "Registration complete!", [
+      {
+        text: "OK",
+        onPress: () => navigation.navigate("Photo"),
+      },
+    ]);
+  };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -32,89 +52,87 @@ const RegisterSubScreen = ({ navigation }) => {
           source={require("../../assets/banking.jpg")}
           style={styles.image}
         />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Date of Birth (YYYY-MM-DD)"
+            value={dob}
+            onChangeText={setDob}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Place of Birth"
+            value={placeOfBirth}
+            onChangeText={setPlaceOfBirth}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Occupation"
+            value={occupation}
+            onChangeText={setOccupation}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Home Address (Street, City, Zip Code)"
+            value={homeAddress}
+            onChangeText={setHomeAddress}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Next of Kin Name"
+            value={nextOfKin}
+            onChangeText={setNextOfKin}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Next of Kin Contact"
+            value={nextOfKinContact}
+            onChangeText={setNextOfKinContact}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Create Password"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+          />
+        </View>
+        <TouchableOpacity style={styles.registerButton} onPress={handleSubmit}>
+          <Text style={styles.registerButtonText}>Submit</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Date of Birth"
-          value={dob}
-          onChangeText={setDob}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Place of Birth"
-          value={placeOfBirth}
-          onChangeText={setPlaceOfBirth}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Occupation"
-          value={occupation}
-          onChangeText={setOccupation}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Home Address"
-          value={homeAddress}
-          onChangeText={setHomeAddress}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Next of Kin Name"
-          value={nextOfKin}
-          onChangeText={setNextOfKin}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Next of Kin Contact"
-          value={nextOfKinContact}
-          onChangeText={setNextOfKinContact}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Create Password"
-          secureTextEntry
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Re-confirm Password"
-          secureTextEntry
-        />
-      </View>
-
-      <TouchableOpacity
-        style={styles.nextButton}
-        onPress={() => navigation.navigate("Photo")}
-      >
-        <Text style={styles.nextButtonText}>Next</Text>
-      </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
     backgroundColor: "#fff",
   },
   header: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ff7f50",
@@ -122,8 +140,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 50,
     flexDirection: "row",
     paddingTop: 25,
+    paddingBottom: 20,
   },
-
   backButton: {
     position: "absolute",
     left: 20,
@@ -138,18 +156,18 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: -1,
   },
   content: {
-    flex: 3,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 20,
   },
   image: {
     width: 100,
     height: 100,
-    marginBottom: 10,
-    borderRadius: 40,
+    marginBottom: 20,
+    borderRadius: 50,
   },
   inputContainer: {
     flexDirection: "row",
@@ -158,24 +176,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 30,
     paddingHorizontal: 15,
-    paddingVertical: 15,
-    marginBottom: 5,
+    paddingVertical: 10,
+    marginBottom: 15,
     width: "100%",
   },
   input: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 16,
   },
   nextButton: {
     backgroundColor: "#ff7f50",
     paddingVertical: 16,
-    paddingHorizontal: 50,
+    paddingHorizontal: 60,
     borderRadius: 30,
-    marginBottom: 0.5,
   },
   nextButtonText: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
   },

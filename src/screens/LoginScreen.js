@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  ScrollView,
   Alert,
 } from "react-native";
 
@@ -13,22 +14,35 @@ const LoginScreen = ({ navigation }) => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
 
+  // Simulated registered credentials
+  const registeredCredentials = {
+    mobile: "+233555123456", // Replace with a mobile number
+    password: "password123", // Replace with a password
+  };
+
   const handleLogin = () => {
-    Alert.alert(
-      "Success",
-      "Login successful",
-      [
-        {
-          text: "OK",
-          onPress: () => navigation.navigate("Home"),
-        },
-      ],
-      { cancelable: false }
-    );
+    if (
+      mobile === registeredCredentials.mobile &&
+      password === registeredCredentials.password
+    ) {
+      Alert.alert(
+        "Success",
+        "Login successful",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("Home"),
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert("Login failed", "Invalid credentials");
+    }
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <Text style={styles.loginText}>Login</Text>
       </View>
@@ -85,22 +99,23 @@ const LoginScreen = ({ navigation }) => {
         />
         <Text style={styles.bankName}>CONFI BANK</Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
+    padding: 20,
   },
   header: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ff7f50",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
+    paddingVertical: 20,
+    marginBottom: 20,
   },
   loginText: {
     color: "#fff",
@@ -108,14 +123,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   content: {
-    flex: 3,
     alignItems: "center",
-    justifyContent: "center",
+    flex: 1,
+    width: "100%",
   },
   image: {
     width: 100,
     height: 100,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   welcomeText: {
     fontSize: 24,
@@ -126,6 +141,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#666",
     marginBottom: 30,
+    textAlign: "center",
   },
   inputContainer: {
     flexDirection: "row",
@@ -133,9 +149,11 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 25,
-    paddingHorizontal: 25,
-    paddingVertical: 13,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     marginBottom: 10,
+    width: "100%",
+    maxWidth: 400, // Limit the max width for better responsiveness
   },
   countryCode: {
     fontSize: 18,
@@ -178,7 +196,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 100,
-    marginBottom: 0.8,
+    marginBottom: 10,
   },
   bankName: {
     fontSize: 18,

@@ -6,28 +6,12 @@ import {
   Image,
   StyleSheet,
   Alert,
+  ScrollView,
 } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-// import FingerprintScanner from "react-native-fingerprint-scanner";
 
 const PhotoScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
-  // const [leftFingerprintVerified, setLeftFingerprintVerified] = useState(false);
-  // const [rightFingerprintVerified, setRightFingerprintVerified] = useState(false);
-
-  // useEffect(() => {
-  //   FingerprintScanner.isSensorAvailable()
-  //     .then(() => {
-  //       // Sensor is available
-  //     })
-  //     .catch((error) => {
-  //       Alert.alert("Error", error.message);
-  //     });
-
-  //   return () => {
-  //     FingerprintScanner.release();
-  //   };
-  // }, []);
 
   const handleChoosePhoto = () => {
     launchImageLibrary({}, (response) => {
@@ -45,40 +29,7 @@ const PhotoScreen = ({ navigation }) => {
     });
   };
 
-  // const handleLeftFingerprintAuth = () => {
-  //   FingerprintScanner.authenticate({
-  //     description: "Scan your left fingerprint to continue",
-  //   })
-  //     .then(() => {
-  //       setLeftFingerprintVerified(true);
-  //       Alert.alert(
-  //         "Authentication Successful",
-  //         "Left fingerprint authenticated successfully."
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       Alert.alert("Authentication Failed", error.message);
-  //     });
-  // };
-
-  // const handleRightFingerprintAuth = () => {
-  //   FingerprintScanner.authenticate({
-  //     description: "Scan your right fingerprint to continue",
-  //   })
-  //     .then(() => {
-  //       setRightFingerprintVerified(true);
-  //       Alert.alert(
-  //         "Authentication Successful",
-  //         "Right fingerprint authenticated successfully."
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       Alert.alert("Authentication Failed", error.message);
-  //     });
-  // };
-
   const handleRegister = () => {
-    console.log("Register button pressed"); // Debugging line
     Alert.alert("Success", "Successfully Registered", [
       {
         text: "OK",
@@ -88,7 +39,7 @@ const PhotoScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
@@ -115,47 +66,31 @@ const PhotoScreen = ({ navigation }) => {
         {photo && <Image source={{ uri: photo }} style={styles.photo} />}
       </View>
       <View style={styles.fingerprintContainer}>
-        {/* {!leftFingerprintVerified ? (
-          <Button
-            title="Verify Left Fingerprint"
-            onPress={handleLeftFingerprintAuth}
-          />
-        ) : (
-          <Text style={styles.verifiedText}>Left Fingerprint Verified</Text>
-        )}
-        {!rightFingerprintVerified ? (
-          <Button
-            title="Verify Right Fingerprint"
-            onPress={handleRightFingerprintAuth}
-          />
-        ) : (
-          <Text style={styles.verifiedText}>Right Fingerprint Verified</Text>
-        )} */}
         <TouchableOpacity
           style={styles.registerButton}
-          onPress={handleRegister} // Ensure this calls the function
+          onPress={handleRegister}
         >
           <Text style={styles.registerButtonText}>Register</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
+    padding: 20,
   },
   header: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ff7f50",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
     flexDirection: "row",
-    paddingTop: 0.7,
+    paddingVertical: 20,
   },
   headerText: {
     flex: 1,
@@ -174,16 +109,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
+  content: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
   image: {
     width: 150,
     height: 150,
-    marginBottom: 100,
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
+    marginBottom: 20,
+    borderRadius: 75,
   },
   photoButton: {
     backgroundColor: "#ff7f50",
@@ -207,7 +142,6 @@ const styles = StyleSheet.create({
   fingerprintContainer: {
     padding: 15,
     alignItems: "center",
-    borderRadius: 30,
   },
   registerButton: {
     backgroundColor: "#ff7f50",
@@ -220,12 +154,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
-  },
-  verifiedText: {
-    color: "green",
-    fontWeight: "bold",
-    marginVertical: 10,
-    fontSize: 16,
   },
 });
 

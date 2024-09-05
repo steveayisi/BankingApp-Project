@@ -14,17 +14,8 @@ const LoginScreen = ({ navigation }) => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
 
-  // Simulated registered credentials
-  const registeredCredentials = {
-    mobile: "+233555123456", // Replace with a mobile number
-    password: "password123", // Replace with a password
-  };
-
   const handleLogin = () => {
-    if (
-      mobile === registeredCredentials.mobile &&
-      password === registeredCredentials.password
-    ) {
+    if (mobile.length > 0 && password.length > 0) {
       Alert.alert(
         "Success",
         "Login successful",
@@ -37,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
         { cancelable: false }
       );
     } else {
-      Alert.alert("Login failed", "Invalid credentials");
+      Alert.alert("Login failed", "Please enter valid credentials");
     }
   };
 
@@ -153,7 +144,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 10,
     width: "100%",
-    maxWidth: 400, // Limit the max width for better responsiveness
+    maxWidth: 400,
   },
   countryCode: {
     fontSize: 18,
